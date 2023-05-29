@@ -1,0 +1,75 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+header{
+    background-color: rgb(58, 58, 195);
+    color:white;
+    padding: 6px 0px;
+}
+body{
+    user-select: none;
+    overflow-x: hidden;
+}
+.logo span{
+    font-size: 1.2rem;
+}
+.menu a{
+    color:white;
+    padding: 0px 20px;
+}
+.right-logo a{
+    color: white;
+    padding: 0px 10px;
+}
+.menu a:hover{
+    background: rgb(86, 86, 225);
+    border-radius: 10px;
+}
+.right-logo a .fa-cart-shopping:hover{
+    color: greenyellow;
+    border-radius:10%;
+}
+.right-logo a .fa-heart:hover{
+    color: red;
+}
+.fa-cart-shopping{
+    margin-right: 10px;
+}
+
+.cart-card{
+    margin-top: 20px;
+    background: rgb(249, 247, 243);
+}
+.img-card img{
+    width: 70%;
+    height: 80%;
+    border:1px solid black;
+}
+.col-2{
+    border:2px solid red;
+}
+.col-8{
+    border:2px solid red;
+}
+.title{
+    font-size: 1.5vw;
+    font-weight: bolder;
+}
+.cost{
+    font-size: 1.3vw;
+    font-weight: 500;
+    color: rgb(135, 134, 134);
+}
+.brand{
+    font-size: 1vw;
+    font-weight: bold;
+    color: black;
+}
+.cart-card .row{
+    box-shadow: 1px 1px 5px 5px rgb(228, 228, 228);
+}
