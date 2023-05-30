@@ -1,97 +1,100 @@
-let arr=sessionStorage.getItem("array");
-let text="";
-let newArr=[];
-let subTotal=0;
+const hamburger=document.querySelector(".hamburger");
+const navList=document.querySelector(".nav-list");
+
+if(hamburger){
+    hamburger.addEventListener("click",()=>{
+        navList.classList.toggle("open");
+    })
+}
+
+//Popup
+
+// const popup=document.querySelector(".popup");
+// const closePopup=document.querySelector(".popup-close");
+
+// if(popup){
+//     closePopup.addEventListener("click",()=>{
+//         popup.classList.add("hide-popup")
+//     });
+//     window.addEventListener("load",()=>{
+//         
+//             popup.classList.remove("hide-popup");
+//         },1000);
+//     })
+// }
+
+//ProductDetails
+const productThumb=document.querySelectorAll(".product-thumb");
+const title=document.querySelectorAll(".title");
+let productCount=0;
+
+Array.from(productThumb).forEach(element=>{
+    element.addEventListener("click",()=>{
+        sessionStorage.setItem("Home-Image",element.innerHTML);
+        sessionStorage.setItem("Home-Title",element.parentElement.nextElementSibling.getElementsByClassName("title")[0].innerHTML);
+        sessionStorage.setItem("Home-Cost",element.parentElement.nextElementSibling.getElementsByClassName("cost")[0].innerHTML);
+        sessionStorage.setItem("Home-Brand",element.parentElement.nextElementSibling.getElementsByClassName("brand")[0].innerHTML);
+        productCount=1;
+        sessionStorage.setItem("array",array);
+    })
+})
+Array.from(title).forEach(element=>{
+    element.addEventListener("click",()=>{
+        sessionStorage.setItem("Home-Image",element.parentElement.previousElementSibling.firstElementChild.innerHTML);
+        sessionStorage.setItem("Home-Title",element.innerHTML);
+        sessionStorage.setItem("Home-Cost",element.nextElementSibling.innerHTML);
+        sessionStorage.setItem("Home-Brand",element.previousElementSibling.innerHTML);
+        productCount=1;
+        sessionStorage.setItem("array",array);
+    })
+})
+
+const heart=document.querySelectorAll(".product-heart");
+const cart=document.querySelectorAll(".product-cart");
 let i=0;
-for(let x of arr){
-    if(x==","){
-        newArr[i]=Number.parseInt(text);
-        text="";
-        i=i+1;
-    }
-    else{
-        text=text+x;
-    }
-}
-newArr[i]=Number.parseInt(text);
-let l=newArr.length;
-console.log(l);
+let order;
+// let count=0;
+let text=`<span class="order">${i}</span>`;
+let target=Array.from(document.getElementsByClassName("order"));
+let counter=0;
+let array=[];
+sessionStorage.clear();
+sessionStorage.setItem("print","0");
 
+Array.from(cart).forEach(element=>{
+    
+    element.addEventListener("click",()=>{
+        if(element.classList.contains("green")==false){
+            i=i+1;
+            element.classList.add("green");
+            text=`<span class="order">${i}</span>`
+            element.innerHTML=text;
+            sessionStorage.setItem(`Image${i}`,element.parentElement.parentElement.previousElementSibling.previousElementSibling.firstElementChild.innerHTML);
+            sessionStorage.setItem(`Title${i}`,element.parentElement.parentElement.previousElementSibling.getElementsByClassName("title")[0].innerHTML);
+            sessionStorage.setItem(`Cost${i}`,element.parentElement.parentElement.previousElementSibling.getElementsByClassName("cost")[0].innerHTML);
+            array[counter]=i;
+            counter=counter+1;
 
-for(let val of newArr){
-    if(l>0){
-    let img=sessionStorage.getItem(`Image${val}`);
-    let title=sessionStorage.getItem(`Title${val}`);
-    let cost=sessionStorage.getItem(`Cost${val}`);
-
-    document.getElementsByClassName("no-items")[0].style.display="none";
-
-    document.getElementsByClassName("tableRow")[0].insertAdjacentHTML("afterend",`<tr class="tableRow">
-    <td>
-        <div class="cart-info">
-            ${img}
-            <div>
-                <p>${title}</p>
-                <span>Price: ${cost}</span>
-                <br>
-                <a href="#">remove</a>
-            </div>
-        </div>
-    </td>
-    <td>
-        <input type="number" value="1" min="1">
-    </td>
-    <td>₹${cost}</td>
-    </tr>`)
-    }
-}
-
-let m=1;
-NeedToPrint=()=>{
-
-    for(let x of newArr){
-        if(sessionStorage.getItem(`Title${x}`)==sessionStorage.getItem("Home-Title")){
-            subTotal=subTotal+Number.parseInt(sessionStorage.getItem(`Cost${x}`));
-            m=0;
-            return false;
         }
         else{
-            subTotal=subTotal+Number.parseInt(sessionStorage.getItem(`Cost${x}`));
+            element.classList.remove("green");
+            order=Number.parseInt(element.firstElementChild.innerHTML);
+            sessionStorage.removeItem(`Image${order}`);
+            sessionStorage.removeItem(`Title${order}`);
+            sessionStorage.removeItem(`Cost${order}`);
+            
+            // count=count+1;
+            const index = array.indexOf(order);
+            if (index > -1) { 
+                array.splice(index, 1); 
+            }
+            counter=counter-1;
+
+
         }
-    }
-    
-}
-const decision=NeedToPrint();
-if(m==1){
-    subTotal=subTotal+Number.parseInt(sessionStorage.getItem("Home-Cost"));
-}
+    })
+})
 
-if(decision!=false && sessionStorage.getItem("print")=="1"){
-    let img=sessionStorage.getItem("Product-Image");
-    let title=sessionStorage.getItem("Product-Title");
-    let cost=sessionStorage.getItem("Product-Cost");
-
-    document.getElementsByClassName("no-item")[0].style.display="none";
-
-    document.getElementsByClassName("tableRow")[0].insertAdjacentHTML("afterend",`<tr class="tableRow">
-    <td>
-        <div class="cart-info">
-            ${img}
-        <div>
-            <p>${title}</p>
-            <span class="amount">Price: ${cost}</span>
-            <br>
-            <a href="#">remove</a>
-        </div>
-        </div>
-    </td>
-<td>
-    <input type="number" value="1" min="1" class="inp">
-</td>
-<td>₹${cost}</td>
-</tr>`)
-}
-
-document.getElementById("subtotal").innerHTML="₹"+subTotal;
-document.getElementById("total").innerHTML="₹"+(subTotal+50);
-// console.log(subTotal)
+document.getElementById("cart-icon").addEventListener("click",()=>{
+    sessionStorage.setItem("array",array);
+})
